@@ -58,6 +58,8 @@ public class CalendarMainActivity extends AppCompatActivity
     private CaldroidFragment calendario;
     ProgressDialog mProgress;
 
+    List<String> lCadenaEventos = new ArrayList<String>();
+
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
@@ -107,7 +109,12 @@ public class CalendarMainActivity extends AppCompatActivity
         calendario.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                Toast.makeText(CalendarMainActivity.this, date.toString(), Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(CalendarMainActivity.this, date.toString(), Toast.LENGTH_LONG).show();
+                Intent viewDayEventsActivityVars = new Intent(getApplication(), ViewDayEventsActivity.class);
+                viewDayEventsActivityVars.putStringArrayListExtra("lCadenaEventos", (ArrayList<String>) lCadenaEventos);
+                startActivity(viewDayEventsActivityVars);
+
             }
         });
 
@@ -456,7 +463,6 @@ public class CalendarMainActivity extends AppCompatActivity
 
             List<String> lCalendars = new ArrayList<String>();
 
-
             //lCalendars.add("ro24qiumugq2mdqfsulhci6ctk@group.calendar.google.com");
             //lCalendars.add("f0bfcbcgif270cj7ts3tqq5ic0@group.calendar.google.com");
 
@@ -566,8 +572,8 @@ public class CalendarMainActivity extends AppCompatActivity
             if (output == null || output.size() == 0) {
                 tvOutputText.setText("No results returned.");
             } else {
-
-                setCustomResourceForDates(output); // colorea el calendario. Esta funcion tiene que estar por encima de la asynTask
+                lCadenaEventos = output;
+                setCustomResourceForDates(output); // colorea el calendario segun la cadena de eventos pasada por parametro. Esta funcion tiene que estar por encima de la asynTask
                 //output.add(0, "Data retrieved using the Google Calendar API:");
                 tvOutputText.setText(TextUtils.join(",", output));
                 // Attach to the activity. asigna el calendario a layout deseado
