@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class CalendarMainActivity extends AppCompatActivity
     GoogleAccountCredential mCredential;
     private TextView tvOutputText;
     private CaldroidFragment calendario;
+    private Button btnAgenda;
     ProgressDialog mProgress;
 
     List<String> lCadenaEventos = new ArrayList<String>();
@@ -110,9 +112,14 @@ public class CalendarMainActivity extends AppCompatActivity
             @Override
             public void onSelectDate(Date date, View view) {
 
+                final Long selectedDate;
+
+                selectedDate = date.getTime();
+
                 //Toast.makeText(CalendarMainActivity.this, date.toString(), Toast.LENGTH_LONG).show();
                 Intent viewDayEventsActivityVars = new Intent(getApplication(), ViewDayEventsActivity.class);
                 viewDayEventsActivityVars.putStringArrayListExtra("lCadenaEventos", (ArrayList<String>) lCadenaEventos);
+                viewDayEventsActivityVars.putExtra("selectedDate", selectedDate);
                 startActivity(viewDayEventsActivityVars);
 
             }
@@ -125,6 +132,14 @@ public class CalendarMainActivity extends AppCompatActivity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
+        btnAgenda = (Button) findViewById(R.id.btnAgenda);
+        btnAgenda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CalendarMainActivity.this, "boton de vista de agenda pendiente de programar", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         getResultsFromApi(); // llama a la funcion que gestiona la conexion y recepcion a google calendar
     }
@@ -468,7 +483,7 @@ public class CalendarMainActivity extends AppCompatActivity
 
             //lCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // desconocido
             //lCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
-            //lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
+            lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
             //lCalendars.add("kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com"); // desconocido
             //lCalendars.add("k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com"); // Lleida
             //lCalendars.add("e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com"); // Mataro
@@ -477,7 +492,7 @@ public class CalendarMainActivity extends AppCompatActivity
             //lCalendars.add("3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com"); // Platja d'Aro
             //lCalendars.add("pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com"); // Sabadell
             //lCalendars.add("2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com"); // Terrassa
-            //lCalendars.add("9slr1m12oodn74flqppp9nllng@group.calendar.google.com"); // Error 404 not found.
+            //lCalendars.add("9slr1m12oodn74flqppp9nllng@group.calendar.google.com"); // Terrassa privado
             //lCalendars.add("uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com"); // Vilassar
             //lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
             lCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
@@ -509,7 +524,7 @@ public class CalendarMainActivity extends AppCompatActivity
 
                 Events events = mService.events().list(lCalendars.get(j))
                         .setMaxResults(100)
-                        .setTimeMin(fechaInicial)
+                        .setTimeMin(now)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
@@ -575,7 +590,7 @@ public class CalendarMainActivity extends AppCompatActivity
                 lCadenaEventos = output;
                 setCustomResourceForDates(output); // colorea el calendario segun la cadena de eventos pasada por parametro. Esta funcion tiene que estar por encima de la asynTask
                 //output.add(0, "Data retrieved using the Google Calendar API:");
-                tvOutputText.setText(TextUtils.join(",", output));
+                //tvOutputText.setText(TextUtils.join(",", output));
                 // Attach to the activity. asigna el calendario a layout deseado
                 FragmentTransaction t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.lyCalendario, calendario);
