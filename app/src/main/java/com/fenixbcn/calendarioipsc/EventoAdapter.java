@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +31,9 @@ public class EventoAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        String TAG = "Calendario Ipsc";
         View vista= convertView;
+        String nombreClub;
 
         if (vista == null) {
 
@@ -46,6 +50,13 @@ public class EventoAdapter extends ArrayAdapter {
 
         TextView tvFechaFin = (TextView) vista.findViewById(R.id.tvFechaFin);
         tvFechaFin.setText(eventoActual.getFechaFin());
+
+        nombreClub = eventoActual.getLogoClub(eventoActual.getTitulo());
+
+        ImageView ivLogoClub = (ImageView) vista.findViewById(R.id.ivLogoClub);
+        ivLogoClub.setImageResource(eventoActual.getIconClub(nombreClub));
+
+        //Log.d(TAG, "el nombre del club es: " + eventoActual.getLogoClub(eventoActual.getTitulo()));
 
         return vista;
     }

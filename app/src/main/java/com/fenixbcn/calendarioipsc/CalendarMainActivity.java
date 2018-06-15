@@ -481,20 +481,20 @@ public class CalendarMainActivity extends AppCompatActivity
             //lCalendars.add("ro24qiumugq2mdqfsulhci6ctk@group.calendar.google.com");
             //lCalendars.add("f0bfcbcgif270cj7ts3tqq5ic0@group.calendar.google.com");
 
-            //lCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // desconocido
-            //lCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
+            lCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // Barcelona
+            lCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
             //lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
-            //lCalendars.add("kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com"); // desconocido
-            //lCalendars.add("k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com"); // Lleida
+            lCalendars.add("kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com"); // Jordi Tarragó (Tarragona)
+            lCalendars.add("k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com"); // Lleida
             lCalendars.add("e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com"); // Mataro
-            //lCalendars.add("nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com"); // Montsia
-            //lCalendars.add("epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com"); // Osona
-            //lCalendars.add("3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com"); // Platja d'Aro
-            //lCalendars.add("pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com"); // Sabadell
-            //lCalendars.add("2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com"); // Terrassa
+            lCalendars.add("nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com"); // Montsia
+            lCalendars.add("epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com"); // Osona
+            lCalendars.add("3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com"); // Platja d'Aro
+            lCalendars.add("pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com"); // Sabadell
+            lCalendars.add("2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com"); // Terrassa
             //lCalendars.add("9slr1m12oodn74flqppp9nllng@group.calendar.google.com"); // Terrassa privado
-            //lCalendars.add("uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com"); // Vilassar
-            //lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
+            lCalendars.add("uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com"); // Vilassar
+            lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
             lCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
 
             // Obtenemos la fecha creada en un string en formato google DateTime de inicio para la recuperacion de eventos
