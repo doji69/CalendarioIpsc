@@ -32,13 +32,15 @@ public class ViewDayEventsActivity extends AppCompatActivity {
         lCadenaEventos = viewDayEventsActivityVars.getStringArrayList("lCadenaEventos");
         selectedDate.setTime(viewDayEventsActivityVars.getLong("selectedDate",-1));
 
-        Log.d(TAG, "numero de items: " + lCadenaEventos.size());
-        Log.d(TAG, "la fecha pasada: " + selectedDate);
+        //Log.d(TAG, "numero de items: " + lCadenaEventos.size());
+        //Log.d(TAG, "la fecha pasada: " + selectedDate);
 
         /* extraer de la lista de eventos los eventos en los que fecha seleccionada y es inicio, fin o
         se encuentra entre el inicio y el fin */
 
         lCadenaEventosSel = Funciones.getDateEvents(lCadenaEventos,selectedDate);
+
+        Log.d(TAG, "la lista de items seleccionados: " + lCadenaEventos);
 
         /* fin extraer de la lista de eventos los eventos en los que fecha seleccionada y es inicio, fin o
         se encuentra entre el inicio y el fin */
@@ -54,49 +56,37 @@ public class ViewDayEventsActivity extends AppCompatActivity {
         ArrayList<Evento> alEventos = new ArrayList<>();
         EventoAdapter eventos;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaInicial = null; // fecha en la que empieza el evento
-        Date fechaFinal = null; // fecha en la que termina el evento
+        String  fechaInicial = null; // fecha en la que empieza el evento
+        String fechaFinal = null; // fecha en la que termina el evento
         String titulo = "";
 
         for (int i = 0; i<lCadenaEventosSel.size(); i++) {
 
             String eventoTirada = lCadenaEventosSel.get(i);
+
+            Log.d(TAG, "el items actual: " + eventoTirada);
             String [] vEventoTirada = eventoTirada.split(" - ");
 
-            try {
-                if (vEventoTirada.length == 5) {
-                    fechaInicial = dateFormat.parse(vEventoTirada[3]);
-                    fechaFinal = dateFormat.parse(vEventoTirada[4]);
-                    titulo = vEventoTirada[0] + " - " + vEventoTirada[1] + " - " +vEventoTirada[2];
-                } else if (vEventoTirada.length == 4) {
-                    fechaInicial = dateFormat.parse(vEventoTirada[2]);
-                    fechaFinal = dateFormat.parse(vEventoTirada[3]);
-                    titulo = vEventoTirada[0] + " - " + vEventoTirada[1];
-                } else if (vEventoTirada.length == 3) {
-                    fechaInicial = dateFormat.parse(vEventoTirada[1]);
-                    fechaFinal = dateFormat.parse(vEventoTirada[2]);
-                    titulo = vEventoTirada[0];
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (vEventoTirada.length == 5) {
+                fechaInicial = Funciones.setDateTimeFormat(vEventoTirada[3]);
+                fechaFinal = Funciones.setDateTimeFormat(vEventoTirada[4]);
+                titulo = vEventoTirada[0] + "\n" + vEventoTirada[1] + "\n" +vEventoTirada[2];
+            } else if (vEventoTirada.length == 4) {
+                fechaInicial = Funciones.setDateTimeFormat(vEventoTirada[2]);
+                fechaFinal = Funciones.setDateTimeFormat(vEventoTirada[3]);
+                titulo = vEventoTirada[0] + "\n" + vEventoTirada[1];
+            } else if (vEventoTirada.length == 3) {
+                fechaInicial = Funciones.setDateTimeFormat(vEventoTirada[1]);
+                fechaFinal = Funciones.setDateTimeFormat(vEventoTirada[2]);
+                titulo = vEventoTirada[0];
             }
 
-            alEventos.add (new Evento(titulo, fechaInicial.toString(),fechaFinal.toString()));
+            alEventos.add (new Evento(titulo, fechaInicial, fechaFinal));
 
             eventos = new EventoAdapter(this, alEventos);
 
             lvDayEvents = (ListView) findViewById(R.id.lvDayEvents);
             lvDayEvents.setAdapter(eventos);
-
-
-
-
         }
-
-
-
-
     }
 }

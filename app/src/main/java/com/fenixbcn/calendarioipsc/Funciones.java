@@ -9,10 +9,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Funciones {
 
-
+    /**
+     * de la lista de eventos recuperada de google calendar filtra aquellos que coinciden con la fecha selecionada y los devuelve en otra lista
+     * @param lCadenaEventos
+     * @param selectedDate
+     * @return
+     */
     static public List<String> getDateEvents (List<String> lCadenaEventos, Date selectedDate) {
 
         String TAG = "Calendario Ipsc";
@@ -45,22 +51,47 @@ public class Funciones {
 
             if (fechaInicial.getTime() == selectedDate.getTime()) {
 
-                Log.d(TAG, "las fechas son iguale: " + fechaInicial + "-" + selectedDate);
+                //Log.d(TAG, "las fechas son iguale: " + fechaInicial + "-" + selectedDate);
                 lCadenaEventosSel.add(lCadenaEventos.get(i));
 
             } else if ((fechaInicial.getTime() < selectedDate.getTime()) && (fechaFinal.getTime() > selectedDate.getTime())) {
 
-                Log.d(TAG, "la fecha seleccionada " + selectedDate + " esta entre: " + fechaInicial + "-" + fechaFinal);
+                //Log.d(TAG, "la fecha seleccionada " + selectedDate + " esta entre: " + fechaInicial + "-" + fechaFinal);
                 lCadenaEventosSel.add(lCadenaEventos.get(i));
             } else if (fechaFinal.getTime() == selectedDate.getTime()) {
 
-                Log.d(TAG, "las fechas son iguale: " + fechaFinal + "-" + selectedDate);
+                //Log.d(TAG, "las fechas son iguale: " + fechaFinal + "-" + selectedDate);
                 lCadenaEventosSel.add(lCadenaEventos.get(i));
             }
 
         }
 
-
         return lCadenaEventosSel;
+    }
+
+    static public String setDateTimeFormat (String dateTime) {
+
+        Locale spanish = new Locale("es", "ES");
+        SimpleDateFormat inputDateFormat = null;
+        SimpleDateFormat outputDateFormat = null;
+        String formattedDateTime = "";
+        Date date = null;
+
+        if (dateTime.length()==10) {
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
+        } else {
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000+02:00'");
+            outputDateFormat = new SimpleDateFormat("dd MMM yyyy k:mm ");
+        }
+
+        try {
+            date = inputDateFormat.parse(dateTime);
+            formattedDateTime = outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return formattedDateTime;
     }
 }

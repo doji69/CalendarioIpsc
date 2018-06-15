@@ -126,7 +126,7 @@ public class CalendarMainActivity extends AppCompatActivity
         });
 
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
+        mProgress.setMessage("Obteniendo datos ...");
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -483,10 +483,10 @@ public class CalendarMainActivity extends AppCompatActivity
 
             //lCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // desconocido
             //lCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
-            lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
+            //lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
             //lCalendars.add("kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com"); // desconocido
             //lCalendars.add("k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com"); // Lleida
-            //lCalendars.add("e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com"); // Mataro
+            lCalendars.add("e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com"); // Mataro
             //lCalendars.add("nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com"); // Montsia
             //lCalendars.add("epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com"); // Osona
             //lCalendars.add("3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com"); // Platja d'Aro
