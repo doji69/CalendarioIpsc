@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:15.0.2'    //Analytics
     implementation 'com.google.firebase:firebase-database:15.0.0'    //Realtime Database
     implementation 'com.android.support:support-media-compat:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
 
     implementation 'com.roomorama:caldroid:3.0.1'
 

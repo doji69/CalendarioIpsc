@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewDayEventsActivity"></activity>
+        <activity android:name=".ViewDayEventsActivity" />
+        <activity android:name=".AgendaMainActivity"></activity>
     </application>
 
 </manifest>

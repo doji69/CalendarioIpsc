@@ -51,7 +51,7 @@ public class EventoAdapter extends ArrayAdapter {
         TextView tvFechaFin = (TextView) vista.findViewById(R.id.tvFechaFin);
         tvFechaFin.setText(eventoActual.getFechaFin());
 
-        nombreClub = eventoActual.getLogoClub(eventoActual.getTitulo());
+        nombreClub = eventoActual.getNombreClub(eventoActual.getTitulo());
 
         ImageView ivLogoClub = (ImageView) vista.findViewById(R.id.ivLogoClub);
         ivLogoClub.setImageResource(eventoActual.getIconClub(nombreClub));

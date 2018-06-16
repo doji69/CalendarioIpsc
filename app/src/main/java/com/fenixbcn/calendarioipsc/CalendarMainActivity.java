@@ -137,7 +137,10 @@ public class CalendarMainActivity extends AppCompatActivity
         btnAgenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CalendarMainActivity.this, "boton de vista de agenda pendiente de programar", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CalendarMainActivity.this, "boton de vista de agenda pendiente de programar", Toast.LENGTH_SHORT).show();
+                Intent agendaMainActivityVars = new Intent(getApplication(), AgendaMainActivity.class);
+                agendaMainActivityVars.putStringArrayListExtra("lCadenaEventos", (ArrayList<String>) lCadenaEventos);
+                startActivity(agendaMainActivityVars);
             }
         });
 

@@ -32,7 +32,7 @@ public class Evento {
         return fechaFin;
     }
 
-    public String getLogoClub (String titulo) {
+    public String getNombreClub (String titulo) {
 
         Boolean logoClubExists;
         String [] nombresClubs = {"Barcelona", "Granollers", "Jordi Tarragó","Lleida","Mataró","Montsia",
@@ -90,7 +90,6 @@ public class Evento {
             default:
                 iconClub = R.mipmap.ic_launcher;
         }
-
 
         return iconClub;
     }
