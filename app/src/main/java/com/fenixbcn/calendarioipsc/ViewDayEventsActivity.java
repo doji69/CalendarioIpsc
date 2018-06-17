@@ -86,6 +86,7 @@ public class ViewDayEventsActivity extends AppCompatActivity {
             eventos = new EventoAdapter(this, alEventos);
 
             lvDayEvents = (ListView) findViewById(R.id.lvDayEvents);
+
             lvDayEvents.setAdapter(eventos);
         }
     }

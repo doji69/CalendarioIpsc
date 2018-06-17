@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:id="@+id/lySingleEvent">
 
-
     <ImageView
         android:id="@+id/ivLogoClub"
         android:layout_width="50dp"
