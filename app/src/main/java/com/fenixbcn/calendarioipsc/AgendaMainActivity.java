@@ -1,8 +1,10 @@
 package com.fenixbcn.calendarioipsc;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,5 +70,17 @@ public class AgendaMainActivity extends AppCompatActivity {
         lvAllEvents.addHeaderView(textView);
 
         lvAllEvents.setAdapter(eventos);
+
+        /**/
+
+        
+
+        /**/
+
+
+
+
+
+
     }
 }
