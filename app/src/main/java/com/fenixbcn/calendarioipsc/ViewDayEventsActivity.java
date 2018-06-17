@@ -83,11 +83,18 @@ public class ViewDayEventsActivity extends AppCompatActivity {
 
             alEventos.add (new Evento(titulo, fechaInicial, fechaFinal));
 
-            eventos = new EventoAdapter(this, alEventos);
-
-            lvDayEvents = (ListView) findViewById(R.id.lvDayEvents);
-
-            lvDayEvents.setAdapter(eventos);
         }
+
+        eventos = new EventoAdapter(this, alEventos);
+
+        lvDayEvents = (ListView) findViewById(R.id.lvDayEvents);
+
+        TextView textView = new TextView(this);
+        textView.setText(Funciones.setDateListViewHeaderFormat(selectedDate.toString()));
+        textView.setTextSize(20);
+
+        lvDayEvents.addHeaderView(textView);
+
+        lvDayEvents.setAdapter(eventos);
     }
 }

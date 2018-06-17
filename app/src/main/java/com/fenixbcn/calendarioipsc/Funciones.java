@@ -171,4 +171,34 @@ public class Funciones {
         return lCadenaEventosOrdered;
     }
 
+    static public String setDateListViewHeaderFormat (String dateTime) {
+
+        Locale spanish = new Locale("es", "ES");
+        SimpleDateFormat inputDateFormat = null;
+        SimpleDateFormat outputDateFormat = null;
+        String formattedDateTime = "";
+        Date date = null;
+
+        Calendar calendar = Calendar.getInstance(); // necesitamos crear la instacia de Calendar para luego obtener el año
+        int year = calendar.get(Calendar.YEAR);
+
+        String subcadenaFecha = dateTime.substring(0,10) + " " +year;
+
+
+        inputDateFormat = new SimpleDateFormat("EEE MMM dd yyyy",Locale.US);
+        outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
+
+
+        try {
+            date = inputDateFormat.parse(subcadenaFecha);
+            formattedDateTime = outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return formattedDateTime;
+
+    }
+
+
 }

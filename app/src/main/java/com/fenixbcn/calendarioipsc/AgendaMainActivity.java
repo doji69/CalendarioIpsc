@@ -28,7 +28,7 @@ public class AgendaMainActivity extends AppCompatActivity {
         //textView.setText(TextUtils.join(",", lCadenaEventosOrdered));
 
         ArrayList<Evento> alEventos = new ArrayList<>();
-        EventoAdapter eventos;
+        EventoAdapter eventos = null;
 
         String  fechaInicial = null; // fecha en la que empieza el evento
         String fechaFinal = null; // fecha en la que termina el evento
@@ -58,10 +58,15 @@ public class AgendaMainActivity extends AppCompatActivity {
             alEventos.add (new Evento(titulo, fechaInicial, fechaFinal));
 
             eventos = new EventoAdapter(this, alEventos);
-
-            lvAllEvents = (ListView) findViewById(R.id.lvAllEvents);
-
-            lvAllEvents.setAdapter(eventos);
         }
+
+        lvAllEvents = (ListView) findViewById(R.id.lvAllEvents);
+
+        TextView textView = new TextView(this);
+        textView.setText("Hello. I'm a header view");
+
+        lvAllEvents.addHeaderView(textView);
+
+        lvAllEvents.setAdapter(eventos);
     }
 }
