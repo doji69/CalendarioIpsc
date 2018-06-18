@@ -53,7 +53,7 @@ public class ViewDayEventsActivity extends AppCompatActivity {
             tvNoEvents.setText("");
         }
 
-        ArrayList<Evento> alEventos = new ArrayList<>();
+        ArrayList<Object> alEventos = new ArrayList<>();
         EventoAdapter eventos;
 
         String  fechaInicial = null; // fecha en la que empieza el evento
