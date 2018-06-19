@@ -80,6 +80,9 @@ public class CalendarMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_activity_main);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.logo);
+
         tvOutputText = (TextView) findViewById(R.id.tvOutputText);
 
         calendario = new CaldroidFragment(); // crea la instancia del calendario tipo Caldroid
