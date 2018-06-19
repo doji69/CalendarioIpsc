@@ -15,8 +15,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        android:text="Titulo"
-        android:textSize="15sp"
+        android:text="Titulo Header"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/caldroid_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

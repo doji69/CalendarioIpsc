@@ -47,7 +47,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivLogoClub"
-        app:layout_constraintTop_toBottomOf="@+id/tvFechaFin" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
 
     <TextView
         android:id="@+id/tvFechaFin"
@@ -62,7 +62,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivLogoClub"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFechaInicio" />
 
 
 </android.support.constraint.ConstraintLayout>

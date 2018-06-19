@@ -165,7 +165,6 @@ public class Funciones {
         for (int j=0; j<lNumdias.size();j++) {
 
             lCadenaEventosOrdered.add(lCadenaEventos.get(lNumdias.get(j).getPosicionEvento()));
-
         }
 
         return lCadenaEventosOrdered;
@@ -184,10 +183,8 @@ public class Funciones {
 
         String subcadenaFecha = dateTime.substring(0,10) + " " +year;
 
-
         inputDateFormat = new SimpleDateFormat("EEE MMM dd yyyy",Locale.US);
         outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
-
 
         try {
             date = inputDateFormat.parse(subcadenaFecha);
@@ -197,8 +194,61 @@ public class Funciones {
         }
 
         return formattedDateTime;
-
     }
 
+    static public List<String> orderEventsByDateWithHeader (List<String> lCadenaEventosOrdered) {
+        String TAG = "Calendario Ipsc";
+        List<String> lCadenaEventosOrderedHeader = new ArrayList<String>();
 
+        SimpleDateFormat dateFormatInput = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormatOutput = new SimpleDateFormat("dd MMM yyyy");
+        Date fechaInicial1 = null; // fecha inicio del orden
+        Date fechaInicial2 = null; // fecha en la que empieza el evento
+
+        String sFechaInicial1 = null;
+        String sFechaInicial2 = "2017-01-01";
+
+        try {
+            fechaInicial2 = dateFormatInput.parse(sFechaInicial2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        /* recorrido por la lista de eventos para saber obtener la fecha de inicio del evento y restar
+        con la fecha de inico del orden. Guardamos la diferencia de dias en una lista de interegers.
+        El indice de la lista sera el indice para saber que evento es*/
+        for (int i=0; i<lCadenaEventosOrdered.size();i++) {
+            String eventoTirada = lCadenaEventosOrdered.get(i);
+            String[] vEventoTirada = eventoTirada.split(" - ");
+
+            try {
+                if (vEventoTirada.length == 5) {
+                    fechaInicial1 = dateFormatInput.parse(vEventoTirada[3]);
+
+                } else if (vEventoTirada.length == 4) {
+                    fechaInicial1 = dateFormatInput.parse(vEventoTirada[2]);
+
+                } else if (vEventoTirada.length == 3) {
+                    fechaInicial1 = dateFormatInput.parse(vEventoTirada[1]);
+
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (fechaInicial1.getTime()!=fechaInicial2.getTime()) {
+
+                sFechaInicial1 = dateFormatOutput.format(fechaInicial1);
+                lCadenaEventosOrderedHeader.add(sFechaInicial1);
+                lCadenaEventosOrderedHeader.add(lCadenaEventosOrdered.get(i));
+                fechaInicial2 = fechaInicial1;
+
+            } else {
+
+                lCadenaEventosOrderedHeader.add(lCadenaEventosOrdered.get(i));
+            }
+        }
+        return lCadenaEventosOrderedHeader;
+    }
 }

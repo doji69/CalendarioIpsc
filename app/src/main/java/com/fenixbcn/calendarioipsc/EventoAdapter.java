@@ -20,15 +20,16 @@ public class EventoAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Object> lListaEventos;
+    String nombreClub;
 
     private static final int eventoItem = 0;
     private static final int headerItem = 1;
     private LayoutInflater layoutInflater;
 
-    public EventoAdapter(@NonNull Context context, @NonNull ArrayList<Object> listaEventos) {
+    public EventoAdapter(@NonNull Context context, @NonNull List<Object> listaEventos) {
 
-        mContext = context;
         this.lListaEventos = listaEventos;
+        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -67,65 +68,43 @@ public class EventoAdapter extends BaseAdapter {
 
         String TAG = "Calendario Ipsc";
         View vista = convertView;
-        String nombreClub;
 
         if (vista == null) {
             switch (getItemViewType(position)) {
                 case eventoItem:
-                    vista = LayoutInflater.from(mContext).inflate(R.layout.single_evento,parent,false);
+                    vista = layoutInflater.inflate(R.layout.single_evento, null);
                     break;
                 case headerItem:
-                    vista = LayoutInflater.from(mContext).inflate(R.layout.listview_evento_header,parent,false);
-                    break;
-            }
-
-
-            switch (getItemViewType(position)) {
-                case eventoItem:
-
-                    TextView tvTitulo = (TextView) vista.findViewById(R.id.tvTitulo);
-                    TextView tvFechaInicio = (TextView) vista.findViewById(R.id.tvFechaInicio);
-                    TextView tvFechaFin = (TextView) vista.findViewById(R.id.tvFechaFin);
-                    ImageView ivLogoClub = (ImageView) vista.findViewById(R.id.ivLogoClub);
-
-                    tvTitulo.setText(((Evento)lListaEventos.get(position)).getTitulo());
-                    tvFechaInicio.setText(((Evento)lListaEventos.get(position)).getFechaInico());
-                    tvFechaFin.setText(((Evento)lListaEventos.get(position)).getFechaFin());
-
-                    nombreClub = ((Evento)lListaEventos.get(position)).getNombreClub(((Evento)lListaEventos.get(position)).getTitulo());
-
-                    ivLogoClub.setImageResource(((Evento)lListaEventos.get(position)).getIconClub(nombreClub));
-
-                    break;
-                case headerItem:
-
-                    TextView tvTituloHeader = (TextView) vista.findViewById(R.id.tvTituloHeader);
-                    tvTituloHeader.setText(((String)lListaEventos.get(position)));
-
+                    vista = layoutInflater.inflate(R.layout.listview_evento_header, null);
                     break;
             }
         }
 
+        switch (getItemViewType(position)) {
+            case eventoItem:
 
+                TextView tvTitulo = (TextView) vista.findViewById(R.id.tvTitulo);
+                TextView tvFechaInicio = (TextView) vista.findViewById(R.id.tvFechaInicio);
+                TextView tvFechaFin = (TextView) vista.findViewById(R.id.tvFechaFin);
+                ImageView ivLogoClub = (ImageView) vista.findViewById(R.id.ivLogoClub);
 
-        /*
+                tvTitulo.setText(((Evento)lListaEventos.get(position)).getTitulo());
+                tvFechaInicio.setText(((Evento)lListaEventos.get(position)).getFechaInico());
+                tvFechaFin.setText(((Evento)lListaEventos.get(position)).getFechaFin());
 
-        TextView tvTitulo = (TextView) vista.findViewById(R.id.tvTitulo);
-        tvTitulo.setText(eventoActual.getTitulo());
+                nombreClub = ((Evento)lListaEventos.get(position)).getNombreClub(((Evento)lListaEventos.get(position)).getTitulo());
 
-        TextView tvFechaInicio = (TextView) vista.findViewById(R.id.tvFechaInicio);
-        tvFechaInicio.setText(eventoActual.getFechaInico());
+                ivLogoClub.setImageResource(((Evento)lListaEventos.get(position)).getIconClub(nombreClub));
 
-        TextView tvFechaFin = (TextView) vista.findViewById(R.id.tvFechaFin);
-        tvFechaFin.setText(eventoActual.getFechaFin());
+                break;
+            case headerItem:
 
-        nombreClub = eventoActual.getNombreClub(eventoActual.getTitulo());
+                TextView tvTituloHeader = (TextView) vista.findViewById(R.id.tvTituloHeader);
+                tvTituloHeader.setText((String)lListaEventos.get(position));
 
-        ImageView ivLogoClub = (ImageView) vista.findViewById(R.id.ivLogoClub);
-        ivLogoClub.setImageResource(eventoActual.getIconClub(nombreClub));
+                break;
+        }
 
-        //Log.d(TAG, "el nombre del club es: " + eventoActual.getLogoClub(eventoActual.getTitulo()));
-        */
         return vista;
     }
 }
