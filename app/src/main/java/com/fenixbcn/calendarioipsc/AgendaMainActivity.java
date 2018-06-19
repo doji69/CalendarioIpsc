@@ -23,6 +23,9 @@ public class AgendaMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda_main);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.logo);
+
         Bundle viewDayEventsActivityVars = getIntent().getExtras();
         lCadenaEventos = viewDayEventsActivityVars.getStringArrayList("lCadenaEventos");
 

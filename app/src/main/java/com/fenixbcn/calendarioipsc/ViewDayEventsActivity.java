@@ -28,6 +28,9 @@ public class ViewDayEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_day_events);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.logo);
+
         Bundle viewDayEventsActivityVars = getIntent().getExtras();
         lCadenaEventos = viewDayEventsActivityVars.getStringArrayList("lCadenaEventos");
         selectedDate.setTime(viewDayEventsActivityVars.getLong("selectedDate",-1));

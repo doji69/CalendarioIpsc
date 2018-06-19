@@ -293,7 +293,7 @@ public class CalendarMainActivity extends AppCompatActivity
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
                     this,
-                    "This app needs to access your Google account (via Contacts).",
+                    "Esta app necesita acceder a tu cuenta de Google.",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
         }
@@ -317,8 +317,8 @@ public class CalendarMainActivity extends AppCompatActivity
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     tvOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
+                            "Esta app necesita Google Play Services. Por favor instala " +
+                                    "Google Play Services en tu dispositivo y vueleve a ejecutar la app.");
                 } else {
                     getResultsFromApi();
                 }
