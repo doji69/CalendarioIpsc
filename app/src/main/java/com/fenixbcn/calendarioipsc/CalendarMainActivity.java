@@ -39,6 +39,8 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -258,7 +261,7 @@ public class CalendarMainActivity extends AppCompatActivity
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            tvOutputText.setText("No network connection available.");
+            tvOutputText.setText("No hay red disponible.");
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -317,8 +320,7 @@ public class CalendarMainActivity extends AppCompatActivity
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     tvOutputText.setText(
-                            "Esta app necesita Google Play Services. Por favor instala " +
-                                    "Google Play Services en tu dispositivo y vueleve a ejecutar la app.");
+                            "Esta app necesita Google Play Services.");
                 } else {
                     getResultsFromApi();
                 }
@@ -455,7 +457,7 @@ public class CalendarMainActivity extends AppCompatActivity
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("CalendarioIpsc")
+                    .setApplicationName("Calendario Ipsc")
                     .build();
         }
 
@@ -468,6 +470,7 @@ public class CalendarMainActivity extends AppCompatActivity
             try {
                 return getDataFromApi();
             } catch (Exception e) {
+
                 mLastError = e;
                 cancel(true);
                 return null;
@@ -503,6 +506,7 @@ public class CalendarMainActivity extends AppCompatActivity
             lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
             lCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
 
+            /*
             // Obtenemos la fecha creada en un string en formato google DateTime de inicio para la recuperacion de eventos
             Calendar calendar = Calendar.getInstance(); // necesitamos crear la instacia de Calendar para luego obtener el año
             int year = calendar.get(Calendar.YEAR);
@@ -518,11 +522,8 @@ public class CalendarMainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             // fin Obtenemos la fecha creada en un string en formato google DateTime de inicio para la recuperacion de eventos
-
+            */
             DateTime now = new DateTime(System.currentTimeMillis()); // obtiene la fecha actual
-            //Log.d(TAG, "now : " + now);
-            //Log.d(TAG, "fechaInicial : " + fechaInicial);
-
             List<String> eventStrings = new ArrayList<String>();
 
             /* multiples calendarios */
@@ -591,7 +592,7 @@ public class CalendarMainActivity extends AppCompatActivity
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                tvOutputText.setText("No results returned.");
+                tvOutputText.setText("No hay eventos.");
             } else {
                 lCadenaEventos = output;
                 setCustomResourceForDates(output); // colorea el calendario segun la cadena de eventos pasada por parametro. Esta funcion tiene que estar por encima de la asynTask
@@ -618,8 +619,14 @@ public class CalendarMainActivity extends AppCompatActivity
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             CalendarMainActivity.REQUEST_AUTHORIZATION);
                 } else {
-                    tvOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    mLastError.printStackTrace(pw);
+                    String txtError = sw.toString(); // stack trace as a string
+                    tvOutputText.setText(txtError);
+
+                    //tvOutputText.setText("Error en la funcion de recuperacion de datos");
                 }
             } else {
                 tvOutputText.setText("Request cancelled.");
