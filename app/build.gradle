@@ -1,15 +1,28 @@
 apply plugin: 'com.android.application'
 
 android {
-
+    signingConfigs {
+        dojiSign2 {
+            keyAlias 'doji'
+            keyPassword 'dragongt69'
+            storeFile file('/Volumes/DiscoSecundario/Documentos/AndroidSignatures/dojiSign2')
+            storePassword 'dragongt69'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.fenixbcn.calendarioipsc"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.1.15"
+        versionCode 18
+        versionName "1.1.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.dojiSign2
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.dojiSign2
+        }
     }
 }
 

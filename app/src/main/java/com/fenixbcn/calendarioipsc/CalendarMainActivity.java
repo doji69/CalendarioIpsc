@@ -620,13 +620,13 @@ public class CalendarMainActivity extends AppCompatActivity
                             CalendarMainActivity.REQUEST_AUTHORIZATION);
                 } else {
 
-                    StringWriter sw = new StringWriter();
+                    /*StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
                     mLastError.printStackTrace(pw);
                     String txtError = sw.toString(); // stack trace as a string
-                    tvOutputText.setText(txtError);
+                    tvOutputText.setText(txtError);*/
 
-                    //tvOutputText.setText("Error en la funcion de recuperacion de datos");
+                    tvOutputText.setText("Error en la funcion de recuperacion de datos");
                 }
             } else {
                 tvOutputText.setText("Request cancelled.");
