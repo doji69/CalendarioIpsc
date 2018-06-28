@@ -510,6 +510,7 @@ public class CalendarMainActivity extends AppCompatActivity
             lCalendars.add("uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com"); // Vilassar
             lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
             lCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
+            lCalendars.add("uda111se8tkr02mg0e9hojjr1g@group.calendar.google.com"); // Igualada
 
             /*
             // Obtenemos la fecha creada en un string en formato google DateTime de inicio para la recuperacion de eventos

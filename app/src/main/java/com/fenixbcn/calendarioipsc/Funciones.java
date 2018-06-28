@@ -85,7 +85,7 @@ public class Funciones {
             inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
         } else {
-            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000+02:00'");
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000'z",spanish);
             outputDateFormat = new SimpleDateFormat("dd MMM yyyy k:mm ");
         }
 
@@ -171,32 +171,6 @@ public class Funciones {
         return lCadenaEventosOrdered;
     }
 
-    static public String setDateListViewHeaderFormat (String dateTime) {
-
-        Locale spanish = new Locale("es", "ES");
-        SimpleDateFormat inputDateFormat = null;
-        SimpleDateFormat outputDateFormat = null;
-        String formattedDateTime = "";
-        Date date = null;
-
-        Calendar calendar = Calendar.getInstance(); // necesitamos crear la instacia de Calendar para luego obtener el año
-        int year = calendar.get(Calendar.YEAR);
-
-        String subcadenaFecha = dateTime.substring(0,10) + " " +year;
-
-        inputDateFormat = new SimpleDateFormat("EEE MMM dd yyyy",Locale.US);
-        outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
-
-        try {
-            date = inputDateFormat.parse(subcadenaFecha);
-            formattedDateTime = outputDateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return formattedDateTime;
-    }
-
     static public List<String> orderEventsByDateWithHeader (List<String> lCadenaEventosOrdered) {
         String TAG = "Calendario Ipsc";
         List<String> lCadenaEventosOrderedHeader = new ArrayList<String>();
@@ -256,8 +230,8 @@ public class Funciones {
     static public LatLng getLocation(String selectedTitulo) {
 
         Boolean nombreClubExists;
-        String [] nombresClubs = {"Barcelona", "Granollers", "Jordi Tarragó","Lleida","Mataró","Montsia","Montsià",
-                "Osona","Platja d'Aro","Sabadell","Terrassa","Vilassar","R.T.A.A.","Hontanares de Eresma",
+        String [] nombresClubs = {"Barcelona", "Granollers", "Igualada", "Jordi Tarragó","Lleida","Mataró","Montsià",
+                "Montsia","Osona","Platja d'Aro","R.T.A.A.","Sabadell","Terrassa","Vilassar","Hontanares de Eresma",
                 "As Pontes","Huesca","Valdemoro"};
         LatLng latPosition = null;
 
@@ -267,11 +241,14 @@ public class Funciones {
             if (nombreClubExists==true) {
 
                 switch (nombresClubs[i]) {
+                    case "Barcelona":
+                        latPosition = new LatLng(41.3695149, 2.1701805);
+                        break;
                     case "Granollers":
                         latPosition = new LatLng(41.6173887, 2.2704919);
                         break;
-                    case "Barcelona":
-                        latPosition = new LatLng(41.3695149, 2.1701805);
+                    case "Igualada":
+                        latPosition = new LatLng(41.5833731,1.6758845);
                         break;
                     case "Jordi Tarragó":
                         latPosition = new LatLng(41.1633502, 1.2416613);
@@ -291,14 +268,20 @@ public class Funciones {
                     case "Osona":
                         latPosition = new LatLng(41.973305, 2.271611);
                         break;
+                    case "Platja d'Aro":
+                        latPosition = new LatLng(41.8080069,3.0285842);
+                        break;
+                    case "R.T.A.A.":
+                        latPosition = new LatLng(41.461502, -0.704428);
+                        break;
+                    case "Sabadell":
+                        latPosition = new LatLng(41.5215577,2.0990669);
+                        break;
                     case "Terrassa":
                         latPosition = new LatLng(41.59458, 2.03766);
                         break;
                     case "Vilassar":
                         latPosition = new LatLng(41.50611, 2.38046);
-                        break;
-                    case "R.T.A.A.":
-                        latPosition = new LatLng(41.461502, -0.704428);
                         break;
                     case "Hontanares de Eresma":
                         latPosition = new LatLng(40.9965688, -4.1976809);
