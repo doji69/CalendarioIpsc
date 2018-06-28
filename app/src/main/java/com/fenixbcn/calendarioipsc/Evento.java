@@ -90,6 +90,9 @@ public class Evento {
             case "R.T.A.A.":
                 iconClub = R.mipmap.club_rtaa_ico;
                 break;
+            case "Sabadell":
+                iconClub = R.mipmap.club_sabadell_ico;
+                break;
             case "Terrassa":
                 iconClub = R.mipmap.club_terrassa_ico;
                 break;
