@@ -7,9 +7,19 @@ android {
         applicationId "com.fenixbcn.calendarioipsc"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 25
-        versionName "1.1.25"
+        versionCode 26
+        versionName "1.1.26"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            manifestPlaceholders = [ google_map_key:"AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [ google_map_key:"AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
+        }
     }
 }
 
