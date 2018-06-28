@@ -10,12 +10,16 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,6 +45,7 @@ import com.roomorama.caldroid.CaldroidListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -540,14 +545,46 @@ public class CalendarMainActivity extends AppCompatActivity
                 for (Event event : items) {
                     DateTime start = event.getStart().getDateTime();
                     DateTime end = event.getEnd().getDateTime();
+
                     if (start == null) {
                         // All-day events don't have start times, so just use
                         // the start date.
                         start = event.getStart().getDate();
                         end = event.getEnd().getDate();
+
+                        // cuando la fecha del evento es dia completa el sistema devuelve la fecha de
+                        // fin con un dia mas, asi que restamos ese dia antes de guardar los datos en
+                        // la lista final
+                        String sNuevaFecha  = String.format(("%s"),end);
+                        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        try {
+                            Date nuevaFecha = inputDateFormat.parse(sNuevaFecha);
+                            org.joda.time.DateTime dtOrg = new org.joda.time.DateTime(nuevaFecha);
+                            org.joda.time.DateTime dtMinusOne = dtOrg.minusDays(1);
+
+                            Log.d(TAG, "La fecha restada es: " + dtMinusOne);
+
+                            String [] vMinusOne = String.format(("%s"),dtMinusOne).split("T");
+
+                            eventStrings.add(
+                                    String.format("%s - %s - %s", event.getSummary(), start, vMinusOne[0]));
+
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        // fin cuando la fecha del evento es dia completa el sistema devuelve la fecha de
+                        // fin con un dia mas, asi que restamos ese dia antes de guardar los datos en
+                        // la lista final
+
+
+                    } else {
+
+                        eventStrings.add(
+                                String.format("%s - %s - %s", event.getSummary(), start, end));
                     }
-                    eventStrings.add(
-                            String.format("%s - %s - %s", event.getSummary(), start, end));
                 }
             }
 
@@ -632,6 +669,50 @@ public class CalendarMainActivity extends AppCompatActivity
                 tvOutputText.setText("Request cancelled.");
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the main_menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_calendar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        String url;
+        Intent browserIntent;
+
+        switch(item.getItemId()) {
+            case R.id.gotoFederacion:
+
+                Calendar calendar = Calendar.getInstance(); // necesitamos crear la instacia de Calendar para luego obtener el año
+                int year = calendar.get(Calendar.YEAR);
+
+                url="http://www.tirolimpico.org/apps/displayFile/es/RFEDETO/public/pages/calendarios-deportivos/precision/calendario-deportivo-recorridos-" + year + ".cms_xhtml";
+
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+
+                //Toast.makeText(CalendarMainActivity.this, "federación", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.gotoFederacio:
+
+                url="http://www.tircat.org/calendar_precisio.php?catcal=prprecisio";
+
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+
+
+                //Toast.makeText(CalendarMainActivity.this, "federació", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
     }
 
 
