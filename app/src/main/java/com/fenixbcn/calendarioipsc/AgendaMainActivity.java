@@ -1,9 +1,12 @@
 package com.fenixbcn.calendarioipsc;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,6 +79,21 @@ public class AgendaMainActivity extends AppCompatActivity {
 
         lvAllEvents = (ListView) findViewById(R.id.lvAllEvents);
         lvAllEvents.setAdapter(eventos);
+
+        lvAllEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String selectedTitulo = ((Evento)lvAllEvents.getItemAtPosition(i)).titulo;
+                //Log.d(TAG, "el evento es: " + selectedTitulo);
+
+                Intent clubsMapsActivityVars = new Intent(getApplication(), ClubsMapsActivity.class);
+                clubsMapsActivityVars.putExtra("selectedTitulo", selectedTitulo);
+                startActivity(clubsMapsActivityVars);
+
+
+            }
+        });
 
     }
 }
