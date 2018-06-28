@@ -1,11 +1,18 @@
 package com.fenixbcn.calendarioipsc;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -101,6 +108,22 @@ public class ViewDayEventsActivity extends AppCompatActivity {
 
             lvDayEvents = (ListView) findViewById(R.id.lvDayEvents);
             lvDayEvents.setAdapter(eventos);
+
+            lvDayEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    String selectedTitulo = ((Evento)lvDayEvents.getItemAtPosition(i)).titulo;
+                    //Log.d(TAG, "el evento es: " + selectedTitulo);
+
+                    Intent clubsMapsActivityVars = new Intent(getApplication(), ClubsMapsActivity.class);
+                    clubsMapsActivityVars.putExtra("selectedTitulo", selectedTitulo);
+                    startActivity(clubsMapsActivityVars);
+
+
+                }
+            });
+
 
         }
 

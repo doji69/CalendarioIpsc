@@ -2,6 +2,7 @@ package com.fenixbcn.calendarioipsc;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.util.DateTime;
 
 import java.text.ParseException;
@@ -250,5 +251,74 @@ public class Funciones {
             }
         }
         return lCadenaEventosOrderedHeader;
+    }
+
+    static public LatLng getLocation(String selectedTitulo) {
+
+        Boolean nombreClubExists;
+        String [] nombresClubs = {"Barcelona", "Granollers", "Jordi Tarragó","Lleida","Mataró","Montsia","Montsià",
+                "Osona","Platja d'Aro","Sabadell","Terrassa","Vilassar","R.T.A.A.","Hontanares de Eresma",
+                "As Pontes","Huesca","Valdemoro"};
+        LatLng latPosition = null;
+
+        for (int i = 0; i < nombresClubs.length; i++) {
+
+            nombreClubExists = selectedTitulo.contains(nombresClubs[i]);
+            if (nombreClubExists==true) {
+
+                switch (nombresClubs[i]) {
+                    case "Granollers":
+                        latPosition = new LatLng(41.6173887, 2.2704919);
+                        break;
+                    case "Barcelona":
+                        latPosition = new LatLng(41.3695149, 2.1701805);
+                        break;
+                    case "Jordi Tarragó":
+                        latPosition = new LatLng(41.1633502, 1.2416613);
+                        break;
+                    case "Lleida":
+                        latPosition = new LatLng(41.6034722, 0.6058056);
+                        break;
+                    case "Mataró":
+                        latPosition = new LatLng(41.576215, 2.420951);
+                        break;
+                    case "Montsià":
+                        latPosition = new LatLng(40.685412, 0.543492);
+                        break;
+                    case "Montsia":
+                        latPosition = new LatLng(40.685412, 0.543492);
+                        break;
+                    case "Osona":
+                        latPosition = new LatLng(41.973305, 2.271611);
+                        break;
+                    case "Terrassa":
+                        latPosition = new LatLng(41.59458, 2.03766);
+                        break;
+                    case "Vilassar":
+                        latPosition = new LatLng(41.50611, 2.38046);
+                        break;
+                    case "R.T.A.A.":
+                        latPosition = new LatLng(41.461502, -0.704428);
+                        break;
+                    case "Hontanares de Eresma":
+                        latPosition = new LatLng(40.9965688, -4.1976809);
+                        break;
+                    case "As Pontes":
+                        latPosition = new LatLng(43.4100612, -7.8611117);
+                        break;
+                    case "Huesca":
+                        latPosition = new LatLng(42.1717392, -0.4046484);
+                        break;
+                    case "Valdemoro":
+                        latPosition = new LatLng(40.1751297, -3.6524834);
+                        break;
+                    default:
+                        latPosition = null;
+
+                }
+            }
+        }
+
+        return latPosition;
     }
 }

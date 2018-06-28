@@ -7,8 +7,8 @@ android {
         applicationId "com.fenixbcn.calendarioipsc"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 22
-        versionName "1.1.22"
+        versionCode 23
+        versionName "1.1.23"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
@@ -39,4 +39,6 @@ dependencies {
 
     // date functions
     implementation 'joda-time:joda-time:2.9.4'
+    // google maps services
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
 }
