@@ -68,12 +68,15 @@ public class CalendarMainActivity extends AppCompatActivity
     private Button btnAgenda;
     ProgressDialog mProgress;
 
-    List<String> lCadenaEventos = new ArrayList<String>();
+    List<String> lCadenaEventos = new ArrayList<String>(); // lista de eventos recuperados de google calendar
+
+    List<String> lCalendars = new ArrayList<String>(); // lista que almacena que calendarios son visibles y cuales no
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int REQUEST_CLUB_LIST = 1004;
 
     private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -351,6 +354,15 @@ public class CalendarMainActivity extends AppCompatActivity
                     getResultsFromApi();
                 }
                 break;
+
+            case REQUEST_CLUB_LIST:
+                if (resultCode == RESULT_OK) {
+
+                    lCalendars = data.getStringArrayListExtra("lClubs");
+                    Log.d(TAG, "los calendarios devueltos son " +  TextUtils.join(",", lCalendars));
+                    new MakeRequestTask(mCredential).execute();
+                }
+                break;
         }
     }
 
@@ -490,11 +502,12 @@ public class CalendarMainActivity extends AppCompatActivity
         private List<String> getDataFromApi() throws IOException {
             // List the next 100 events from the primary calendar.
 
-            List<String> lCalendars = new ArrayList<String>();
+            //List<String> lCalendars = new ArrayList<String>();
 
             //lCalendars.add("ro24qiumugq2mdqfsulhci6ctk@group.calendar.google.com");
             //lCalendars.add("f0bfcbcgif270cj7ts3tqq5ic0@group.calendar.google.com");
 
+            /*
             lCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // Barcelona
             lCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
             //lCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
@@ -511,6 +524,7 @@ public class CalendarMainActivity extends AppCompatActivity
             lCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
             lCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
             lCalendars.add("uda111se8tkr02mg0e9hojjr1g@group.calendar.google.com"); // Igualada
+            /*
 
             /*
             // Obtenemos la fecha creada en un string en formato google DateTime de inicio para la recuperacion de eventos
@@ -711,8 +725,7 @@ public class CalendarMainActivity extends AppCompatActivity
             case R.id.ListaClubsVisibles:
 
                 Intent listaClubsActivityVars = new Intent(getApplication(), ListaClubsActivity.class);
-                startActivity(listaClubsActivityVars);
-
+                startActivityForResult(listaClubsActivityVars,REQUEST_CLUB_LIST);
 
                 //Toast.makeText(CalendarMainActivity.this, "lista clubs", Toast.LENGTH_SHORT).show();
                 break;
@@ -721,6 +734,7 @@ public class CalendarMainActivity extends AppCompatActivity
 
         return true;
     }
+
 
 
 }

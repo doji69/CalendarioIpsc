@@ -19,11 +19,12 @@ public class Funciones {
 
     /**
      * de la lista de eventos recuperada de google calendar filtra aquellos que coinciden con la fecha selecionada y los devuelve en otra lista
+     *
      * @param lCadenaEventos
      * @param selectedDate
      * @return
      */
-    static public List<String> getDateEvents (List<String> lCadenaEventos, Date selectedDate) {
+    static public List<String> getDateEvents(List<String> lCadenaEventos, Date selectedDate) {
 
         String TAG = "Calendario Ipsc";
         List<String> lCadenaEventosSel = new ArrayList<String>();
@@ -32,10 +33,10 @@ public class Funciones {
         Date fechaInicial = null; // fecha en la que empieza el evento
         Date fechaFinal = null; // fecha en la que termina el evento
 
-        for (int i=0;i<lCadenaEventos.size();i++) {
+        for (int i = 0; i < lCadenaEventos.size(); i++) {
 
             String eventoTirada = lCadenaEventos.get(i);
-            String [] vEventoTirada = eventoTirada.split(" - ");
+            String[] vEventoTirada = eventoTirada.split(" - ");
 
             try {
                 if (vEventoTirada.length == 5) {
@@ -73,7 +74,7 @@ public class Funciones {
         return lCadenaEventosSel;
     }
 
-    static public String setDateTimeFormat (String dateTime) {
+    static public String setDateTimeFormat(String dateTime) {
 
         Locale spanish = new Locale("es", "ES");
         SimpleDateFormat inputDateFormat = null;
@@ -81,11 +82,11 @@ public class Funciones {
         String formattedDateTime = "";
         Date date = null;
 
-        if (dateTime.length()==10) {
+        if (dateTime.length() == 10) {
             inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
         } else {
-            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000'z",spanish);
+            inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000'z", spanish);
             outputDateFormat = new SimpleDateFormat("dd MMM yyyy k:mm ");
         }
 
@@ -99,7 +100,7 @@ public class Funciones {
         return formattedDateTime;
     }
 
-    static public List<String> orderEventsByDate (List<String> lCadenaEventos) {
+    static public List<String> orderEventsByDate(List<String> lCadenaEventos) {
 
         String TAG = "Calendario Ipsc";
         List<String> lCadenaEventosOrdered = new ArrayList<String>();
@@ -114,7 +115,7 @@ public class Funciones {
         // Obtenemos la fecha inicio del orden creada en un string
         Calendar calendar = Calendar.getInstance(); // necesitamos crear la instacia de Calendar para luego obtener el año
         int year = calendar.get(Calendar.YEAR);
-        year -=1; // quiero ordenar desde un año antes a actual
+        year -= 1; // quiero ordenar desde un año antes a actual
 
         String sFirstDay = year + "-01-01";
 
@@ -129,9 +130,9 @@ public class Funciones {
         /* recorrido por la lista de eventos para saber obtener la fecha de inicio del evento y restar
         con la fecha de inico del orden. Guardamos la diferencia de dias en una lista de interegers.
         El indice de la lista sera el indice para saber que evento es*/
-        for (int i=0; i<lCadenaEventos.size();i++) {
+        for (int i = 0; i < lCadenaEventos.size(); i++) {
             String eventoTirada = lCadenaEventos.get(i);
-            String [] vEventoTirada = eventoTirada.split(" - ");
+            String[] vEventoTirada = eventoTirada.split(" - ");
 
             try {
                 if (vEventoTirada.length == 5) {
@@ -149,21 +150,21 @@ public class Funciones {
                 e.printStackTrace();
             }
 
-            diasInicio = (int) ((fechaInicial.getTime()-fechaInicioOrden.getTime())/86400000);
+            diasInicio = (int) ((fechaInicial.getTime() - fechaInicioOrden.getTime()) / 86400000);
 
-            lNumdias.add(new NumDiasPosicion(diasInicio,i));
+            lNumdias.add(new NumDiasPosicion(diasInicio, i));
         }
 
         /* ordena la lista de menor a major por el campo numdias de la clase NumDiasPosicion*/
         Collections.sort(lNumdias, new Comparator<NumDiasPosicion>() {
             @Override
             public int compare(NumDiasPosicion numDiasPosicion, NumDiasPosicion t1) {
-                return numDiasPosicion.getNumDias()-t1.getNumDias();
+                return numDiasPosicion.getNumDias() - t1.getNumDias();
             }
         });
         /* fin ordena la lista de menor a major por el campo numdias de la clase NumDiasPosicion */
 
-        for (int j=0; j<lNumdias.size();j++) {
+        for (int j = 0; j < lNumdias.size(); j++) {
 
             lCadenaEventosOrdered.add(lCadenaEventos.get(lNumdias.get(j).getPosicionEvento()));
         }
@@ -171,7 +172,7 @@ public class Funciones {
         return lCadenaEventosOrdered;
     }
 
-    static public List<String> orderEventsByDateWithHeader (List<String> lCadenaEventosOrdered) {
+    static public List<String> orderEventsByDateWithHeader(List<String> lCadenaEventosOrdered) {
         String TAG = "Calendario Ipsc";
         List<String> lCadenaEventosOrderedHeader = new ArrayList<String>();
 
@@ -192,7 +193,7 @@ public class Funciones {
         /* recorrido por la lista de eventos para saber obtener la fecha de inicio del evento y restar
         con la fecha de inico del orden. Guardamos la diferencia de dias en una lista de interegers.
         El indice de la lista sera el indice para saber que evento es*/
-        for (int i=0; i<lCadenaEventosOrdered.size();i++) {
+        for (int i = 0; i < lCadenaEventosOrdered.size(); i++) {
             String eventoTirada = lCadenaEventosOrdered.get(i);
             String[] vEventoTirada = eventoTirada.split(" - ");
 
@@ -212,7 +213,7 @@ public class Funciones {
                 e.printStackTrace();
             }
 
-            if (fechaInicial1.getTime()!=fechaInicial2.getTime()) {
+            if (fechaInicial1.getTime() != fechaInicial2.getTime()) {
 
                 sFechaInicial1 = dateFormatOutput.format(fechaInicial1);
                 lCadenaEventosOrderedHeader.add(sFechaInicial1);
@@ -230,15 +231,15 @@ public class Funciones {
     static public LatLng getLocation(String selectedTitulo) {
 
         Boolean nombreClubExists;
-        String [] nombresClubs = {"Barcelona", "Granollers", "Igualada", "Jordi Tarragó","Lleida","Mataró","Montsià",
-                "Montsia","Osona","Platja d'Aro","R.T.A.A.","Sabadell","Terrassa","Vilassar","Hontanares de Eresma",
-                "As Pontes","Huesca","Valdemoro"};
+        String[] nombresClubs = {"Barcelona", "Granollers", "Igualada", "Jordi Tarragó", "Lleida", "Mataró", "Montsià",
+                "Montsia", "Osona", "Platja d'Aro", "R.T.A.A.", "Sabadell", "Terrassa", "Vilassar", "Hontanares de Eresma",
+                "As Pontes", "Huesca", "Valdemoro"};
         LatLng latPosition = null;
 
         for (int i = 0; i < nombresClubs.length; i++) {
 
             nombreClubExists = selectedTitulo.contains(nombresClubs[i]);
-            if (nombreClubExists==true) {
+            if (nombreClubExists == true) {
 
                 switch (nombresClubs[i]) {
                     case "Barcelona":
@@ -248,7 +249,7 @@ public class Funciones {
                         latPosition = new LatLng(41.6173887, 2.2704919);
                         break;
                     case "Igualada":
-                        latPosition = new LatLng(41.5833731,1.6758845);
+                        latPosition = new LatLng(41.5833731, 1.6758845);
                         break;
                     case "Jordi Tarragó":
                         latPosition = new LatLng(41.1633502, 1.2416613);
@@ -269,13 +270,13 @@ public class Funciones {
                         latPosition = new LatLng(41.973305, 2.271611);
                         break;
                     case "Platja d'Aro":
-                        latPosition = new LatLng(41.8080069,3.0285842);
+                        latPosition = new LatLng(41.8080069, 3.0285842);
                         break;
                     case "R.T.A.A.":
                         latPosition = new LatLng(41.461502, -0.704428);
                         break;
                     case "Sabadell":
-                        latPosition = new LatLng(41.5215577,2.0990669);
+                        latPosition = new LatLng(41.5215577, 2.0990669);
                         break;
                     case "Terrassa":
                         latPosition = new LatLng(41.59458, 2.03766);
@@ -304,4 +305,60 @@ public class Funciones {
 
         return latPosition;
     }
+
+    static public String getCalendarId(String nombreClub) {
+
+        String calendarId = "";
+
+        switch (nombreClub) {
+
+            case "Granollers":
+                calendarId = "dne67tuddd0jrn2182igm783sc@group.calendar.google.com";
+                break;
+            case "Barcelona":
+                calendarId = "ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com";
+                break;
+            case "Igualada":
+                calendarId = "uda111se8tkr02mg0e9hojjr1g@group.calendar.google.com";
+                break;
+            case "Jordi Tarragó":
+                calendarId = "kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com";
+                break;
+            case "Lleida":
+                calendarId = "k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com";
+                break;
+            case "Mataró":
+                calendarId = "e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com";
+                break;
+            case "Montsià":
+                calendarId = "nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com";
+                break;
+            case "Osona":
+                calendarId = "epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com";
+                break;
+            case "Platja d'Aro":
+                calendarId = "3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com";
+                break;
+            case "R.T.A.A.":
+                calendarId = "j36gq85ai9q4bp6325le90eig0@group.calendar.google.com";
+                break;
+            case "Sabadell":
+                calendarId = "pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com";
+                break;
+            case "Terrassa":
+                calendarId = "2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com";
+                break;
+            case "Vilassar":
+                calendarId = "uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com";
+                break;
+            case "RFEDETO":
+                calendarId = "ert4hkolipo06154v6p7k0c7co@group.calendar.google.com";
+                break;
+        }
+
+
+
+        return calendarId;
+    }
+
 }
