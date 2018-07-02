@@ -14,5 +14,10 @@
         app:showAsAction="always">
     </item>
 
+    <item
+        android:id="@+id/ListaClubsVisibles"
+        android:title="Lista Clubs">
+    </item>
+
 
 </menu>

@@ -13,12 +13,12 @@ android {
     }
     buildTypes {
         debug {
-            manifestPlaceholders = [ google_map_key:"AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
+            manifestPlaceholders = [google_map_key: "AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ google_map_key:"AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
+            manifestPlaceholders = [google_map_key: "AIzaSyCstIVzNFn_WNqDEc_-5MXG2X4zbs3P0SA"]
         }
     }
 }

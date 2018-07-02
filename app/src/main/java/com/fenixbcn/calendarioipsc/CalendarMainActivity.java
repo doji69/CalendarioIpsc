@@ -564,13 +564,12 @@ public class CalendarMainActivity extends AppCompatActivity
                             org.joda.time.DateTime dtOrg = new org.joda.time.DateTime(nuevaFecha);
                             org.joda.time.DateTime dtMinusOne = dtOrg.minusDays(1);
 
-                            Log.d(TAG, "La fecha restada es: " + dtMinusOne);
+                            //Log.d(TAG, "La fecha restada es: " + dtMinusOne);
 
                             String [] vMinusOne = String.format(("%s"),dtMinusOne).split("T");
 
                             eventStrings.add(
                                     String.format("%s - %s - %s", event.getSummary(), start, vMinusOne[0]));
-
 
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -579,7 +578,6 @@ public class CalendarMainActivity extends AppCompatActivity
                         // fin cuando la fecha del evento es dia completa el sistema devuelve la fecha de
                         // fin con un dia mas, asi que restamos ese dia antes de guardar los datos en
                         // la lista final
-
 
                     } else {
 
@@ -709,8 +707,16 @@ public class CalendarMainActivity extends AppCompatActivity
 
                 //Toast.makeText(CalendarMainActivity.this, "federació", Toast.LENGTH_SHORT).show();
                 break;
-            default:
-                return super.onOptionsItemSelected(item);
+
+            case R.id.ListaClubsVisibles:
+
+                Intent listaClubsActivityVars = new Intent(getApplication(), ListaClubsActivity.class);
+                startActivity(listaClubsActivityVars);
+
+
+                //Toast.makeText(CalendarMainActivity.this, "lista clubs", Toast.LENGTH_SHORT).show();
+                break;
+
         }
 
         return true;
