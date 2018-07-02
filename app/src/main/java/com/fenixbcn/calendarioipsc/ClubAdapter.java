@@ -39,7 +39,7 @@ public class ClubAdapter extends ArrayAdapter {
         Club clubActual = mListaClubs.get(position);
 
         CheckBox cbClub = (CheckBox) vista.findViewById(R.id.cbNombreClub);
-        cbClub.setOnCheckedChangeListener((ListaClubsActivity) mContext);
+        cbClub.setOnCheckedChangeListener((ListaClubsActivity) mContext); // evento que controla el cambio de estado del checkbox
         cbClub.setText(clubActual.getNombreclub());
         cbClub.setChecked(clubActual.isClubSelected());
 

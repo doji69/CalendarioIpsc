@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+// es necesario añadir el Implements para poder contralar el cambio de estado del checkbox en la funcion correspondiente
 public class ListaClubsActivity extends AppCompatActivity implements android.widget.CompoundButton.OnCheckedChangeListener{
 
     List<String> nombresClubs = Arrays.asList("Barcelona", "Granollers", "Igualada", "Jordi Tarragó", "Lleida", "Mataró", "Montsià",
