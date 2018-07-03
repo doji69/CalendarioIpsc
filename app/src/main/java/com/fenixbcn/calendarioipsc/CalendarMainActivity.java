@@ -70,7 +70,8 @@ public class CalendarMainActivity extends AppCompatActivity
 
     List<String> lCadenaEventos = new ArrayList<String>(); // lista de eventos recuperados de google calendar
 
-    List<String> lIdCalendars = new ArrayList<String>(); // lista que almacena que calendarios son visibles y cuales no
+    List<String> sIdCalendarsClubsChecked = new ArrayList<String>(); // lista que almacena que calendarios son visibles
+    List<String> sIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista que almacena que calendarios no son visibles
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -93,7 +94,7 @@ public class CalendarMainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.logo);
 
-        lIdCalendars = Funciones.initIdCalendars(lIdCalendars);
+        sIdCalendarsClubsChecked = Funciones.initIdCalendars(sIdCalendarsClubsChecked);
 
         tvOutputText = (TextView) findViewById(R.id.tvOutputText);
 
@@ -359,8 +360,10 @@ public class CalendarMainActivity extends AppCompatActivity
             case REQUEST_CLUB_LIST:
                 if (resultCode == RESULT_OK) {
 
-                    lIdCalendars = data.getStringArrayListExtra("lClubs");
-                    Log.d(TAG, "los calendarios devueltos son " +  TextUtils.join(",", lIdCalendars));
+                    sIdCalendarsClubsChecked = data.getStringArrayListExtra("sIdCalendarsClubsChecked");
+                    sIdCalendarsClubsUnChecked = data.getStringArrayListExtra("sIdCalendarsClubsUnChecked");
+                    Log.d(TAG, "los calendarios clicados devueltos son " +  TextUtils.join(",", sIdCalendarsClubsChecked));
+                    Log.d(TAG, "los calendarios desclicados devueltos son " +  TextUtils.join(",", sIdCalendarsClubsUnChecked));
                     new MakeRequestTask(mCredential).execute();
                 }
                 break;
@@ -548,9 +551,9 @@ public class CalendarMainActivity extends AppCompatActivity
             List<String> eventStrings = new ArrayList<String>();
 
             /* multiples calendarios */
-            for (int j=0; j<lIdCalendars.size();j++) {
+            for (int j=0; j<sIdCalendarsClubsChecked.size();j++) {
 
-                Events events = mService.events().list(lIdCalendars.get(j))
+                Events events = mService.events().list(sIdCalendarsClubsChecked.get(j))
                         .setMaxResults(100)
                         .setTimeMin(now)
                         .setOrderBy("startTime")
@@ -725,7 +728,8 @@ public class CalendarMainActivity extends AppCompatActivity
             case R.id.ListaClubsVisibles:
 
                 Intent listaClubsActivityVars = new Intent(getApplication(), ListaClubsActivity.class);
-                listaClubsActivityVars.putStringArrayListExtra("lIdCalendars", (ArrayList<String>) lIdCalendars);
+                listaClubsActivityVars.putStringArrayListExtra("sIdCalendarsClubsChecked", (ArrayList<String>) sIdCalendarsClubsChecked);
+                listaClubsActivityVars.putStringArrayListExtra("sIdCalendarsClubsUnChecked", (ArrayList<String>) sIdCalendarsClubsUnChecked);
                 startActivityForResult(listaClubsActivityVars,REQUEST_CLUB_LIST);
 
                 //Toast.makeText(CalendarMainActivity.this, "lista clubs", Toast.LENGTH_SHORT).show();

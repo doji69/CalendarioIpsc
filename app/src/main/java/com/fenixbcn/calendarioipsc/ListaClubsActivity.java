@@ -44,6 +44,8 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
     List<Club> lClubs; // listado de clubs para el adapter
     List<String> sIdCalendarsClubsChecked = new ArrayList<String>(); // lista de idCalendars de los clubs chequeados
+    List<String> sIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista de idCalendars de los clubs no chequeados
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,8 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
         setContentView(R.layout.activity_lista_clubs);
 
         Bundle listaClubsActivityVars = getIntent().getExtras();
-        sIdCalendarsClubsChecked = listaClubsActivityVars.getStringArrayList("lIdCalendars");
+        sIdCalendarsClubsChecked = listaClubsActivityVars.getStringArrayList("sIdCalendarsClubsChecked");
+        sIdCalendarsClubsUnChecked = listaClubsActivityVars.getStringArrayList("sIdCalendarsClubsUnChecked");
 
         Log.d(TAG, "la lista de idCalendar es " + sIdCalendarsClubsChecked);
 
@@ -66,6 +69,12 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
         }
 
+        for (int i = 0; i<sIdCalendarsClubsUnChecked.size(); i++) {
+
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsUnChecked.get(i))));
+
+        }
+
         clubs = new ClubAdapter(this, lClubs);
         lvListaClubs.setAdapter(clubs);
 
@@ -77,7 +86,8 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
                 //Log.d(TAG, "los calendarios seleccionados son " +  TextUtils.join(",", sClubs));
                 Intent intent = getIntent();
-                intent.putStringArrayListExtra("lClubs", (ArrayList<String>) sIdCalendarsClubsChecked);
+                intent.putStringArrayListExtra("sIdCalendarsClubsChecked", (ArrayList<String>) sIdCalendarsClubsChecked);
+                intent.putStringArrayListExtra("sIdCalendarsClubsUnChecked", (ArrayList<String>) sIdCalendarsClubsUnChecked);
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -97,7 +107,9 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
         int pos = lvListaClubs.getPositionForView(compoundButton);
+        String idCalendario = "";
 
         if (pos != ListView.INVALID_POSITION) {
             Club club = lClubs.get(pos);
@@ -105,21 +117,32 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
             if (isChecked) {
 
-                //Toast.makeText(ListaClubsActivity.this,"Clicado en club: " + club.getNombreclub() + ", el estado es " + isChecked,Toast.LENGTH_SHORT).show();
-
+                // añadimos el club clicado al listado de clubs clicados
                 Log.d(TAG, "el club clicado es " + club.getNombreclub() + ". El estado es " + isChecked);
                 sIdCalendarsClubsChecked.add(Funciones.getCalendarId(club.getNombreclub()));
 
+                // buscamos el club clicado y lo borramos de la lista de clubs no clicados
+                idCalendario = Funciones.getCalendarId(club.getNombreclub());
+
+                Log.d(TAG, "el calendario a eliminar de no clicados es " + club.getNombreclub() + ". El id es " + idCalendario);
+                int posIdCalendario = sIdCalendarsClubsUnChecked.indexOf(idCalendario);
+                Log.d(TAG, "esta en la posicion " + posIdCalendario);
+
+                sIdCalendarsClubsUnChecked.remove(posIdCalendario);
+
             } else {
 
-                //Toast.makeText(ListaClubsActivity.this,"Clicado en club: " + club.getNombreclub() + ", el estado es " + isChecked,Toast.LENGTH_SHORT).show();
-
+                // añadimos el club desclicado al listado de clubs no clicados
                 Log.d(TAG, "el club desclicado es " + club.getNombreclub() + ". El estado es " + isChecked);
-                String idCalendario = Funciones.getCalendarId(club.getNombreclub());
+                sIdCalendarsClubsUnChecked.add(Funciones.getCalendarId(club.getNombreclub()));
+                Log.d(TAG, "el idCalendario del club desclicado es " + Funciones.getCalendarId(club.getNombreclub()));
 
-                Log.d(TAG, "el calendario a eliminar es " + club.getNombreclub() + ". El id es " + idCalendario);
+                // buscamos el club desclicado y lo borramos de la lista de clubs clicados
+                idCalendario = Funciones.getCalendarId(club.getNombreclub());
+
+                Log.d(TAG, "el calendario a eliminar de clicados es " + club.getNombreclub() + ". El id es " + idCalendario);
                 int posIdCalendario = sIdCalendarsClubsChecked.indexOf(idCalendario);
-                Log.d(TAG, "esta en la posicion " + posIdCalendario);
+                Log.d(TAG, "esta en la posicion  " + posIdCalendario);
 
                 sIdCalendarsClubsChecked.remove(posIdCalendario);
 
