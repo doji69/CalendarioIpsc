@@ -17,6 +17,28 @@ import java.util.Locale;
 
 public class Funciones {
 
+    static public List<String> initIdCalendars(List<String> lIdCalendars) {
+
+        lIdCalendars.add("ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com"); // Barcelona
+        lIdCalendars.add("dne67tuddd0jrn2182igm783sc@group.calendar.google.com"); // Granollers
+        //lIdCalendars.add("ilv3lk9c0fqnnodmi1t71ocv3g@group.calendar.google.com"); // Granollers privado
+        lIdCalendars.add("kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com"); // Jordi Tarragó (Tarragona)
+        lIdCalendars.add("k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com"); // Lleida
+        lIdCalendars.add("e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com"); // Mataro
+        lIdCalendars.add("nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com"); // Montsia
+        lIdCalendars.add("epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com"); // Osona
+        lIdCalendars.add("3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com"); // Platja d'Aro
+        lIdCalendars.add("pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com"); // Sabadell
+        lIdCalendars.add("2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com"); // Terrassa
+        //lIdCalendars.add("9slr1m12oodn74flqppp9nllng@group.calendar.google.com"); // Terrassa privado
+        lIdCalendars.add("uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com"); // Vilassar
+        lIdCalendars.add("j36gq85ai9q4bp6325le90eig0@group.calendar.google.com"); // Agustina de Aragón Zaragoza
+        lIdCalendars.add("ert4hkolipo06154v6p7k0c7co@group.calendar.google.com"); // Federacion Tiro
+        lIdCalendars.add("uda111se8tkr02mg0e9hojjr1g@group.calendar.google.com"); // Igualada
+
+        return lIdCalendars;
+    }
+
     /**
      * de la lista de eventos recuperada de google calendar filtra aquellos que coinciden con la fecha selecionada y los devuelve en otra lista
      *
@@ -24,6 +46,7 @@ public class Funciones {
      * @param selectedDate
      * @return
      */
+
     static public List<String> getDateEvents(List<String> lCadenaEventos, Date selectedDate) {
 
         String TAG = "Calendario Ipsc";
@@ -356,9 +379,60 @@ public class Funciones {
                 break;
         }
 
-
-
         return calendarId;
+    }
+
+    static public String getNombreClubByCalendarId(String idCalendar) {
+
+        String nombreClub = "";
+
+        switch (idCalendar) {
+
+            case "dne67tuddd0jrn2182igm783sc@group.calendar.google.com":
+                nombreClub = "Granollers";
+                break;
+            case "ngjagh7og8ij1qicffe17ubtcc@group.calendar.google.com":
+                nombreClub = "Barcelona";
+                break;
+            case "uda111se8tkr02mg0e9hojjr1g@group.calendar.google.com":
+                nombreClub = "Igualada";
+                break;
+            case "kak1rooupa6ru9kt6vki5gmrs0@group.calendar.google.com":
+                nombreClub = "Jordi Tarragó";
+                break;
+            case "k0pmhg0b0i8l574n34c9im5r1s@group.calendar.google.com":
+                nombreClub = "Lleida";
+                break;
+            case "e20gtq6h142m0vt4olgpmagvj0@group.calendar.google.com":
+                nombreClub = "Mataró";
+                break;
+            case "nicucek3ijoo2dk21ucsthb2m0@group.calendar.google.com":
+                nombreClub = "Montsià";
+                break;
+            case "epmhu8fts0ai17ot9fvmlr2r80@group.calendar.google.com":
+                nombreClub = "Osona";
+                break;
+            case "3pplpsjb0rte6upt0ecielvrec@group.calendar.google.com":
+                nombreClub = "Platja d'Aro";
+                break;
+            case "j36gq85ai9q4bp6325le90eig0@group.calendar.google.com":
+                nombreClub = "R.T.A.A.";
+                break;
+            case "pngv5u4uit1opct9r4c7d74ofs@group.calendar.google.com":
+                nombreClub = "Sabadell";
+                break;
+            case "2t466nuslhmr90u7odfc5bn1is@group.calendar.google.com":
+                nombreClub = "Terrassa";
+                break;
+            case "uo34u3j4mqd00e3h5g1kcm1928@group.calendar.google.com":
+                nombreClub = "Vilassar";
+                break;
+            case "ert4hkolipo06154v6p7k0c7co@group.calendar.google.com":
+                nombreClub = "RFEDETO";
+                break;
+        }
+
+        return nombreClub;
     }
 
 }

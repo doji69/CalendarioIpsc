@@ -3,7 +3,7 @@ package com.fenixbcn.calendarioipsc;
 public class Club {
 
     String nombreclub;
-    Boolean clubSelected = false;
+    Boolean clubSelected = true;
 
     public Club (String tNombreclub) {
 

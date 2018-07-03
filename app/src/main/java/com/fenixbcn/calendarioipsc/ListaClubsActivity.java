@@ -38,29 +38,31 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
     private static final String TAG = "Calendario Ipsc";
 
-    List<String> nombresClubs = Arrays.asList("Barcelona", "Granollers", "Igualada", "Jordi Tarragó", "Lleida", "Mataró", "Montsià",
-            "Osona", "Platja d'Aro", "R.T.A.A.", "Sabadell", "Terrassa", "Vilassar", "RFEDETO");
-
     private ListView lvListaClubs;
     private Button btnOkListaClubs;
     private Button btnCancelListaClubs;
 
     List<Club> lClubs; // listado de clubs para el adapter
-    List<String> sClubs = new ArrayList<String>();
+    List<String> sIdCalendarsClubsChecked = new ArrayList<String>(); // lista de idCalendars de los clubs chequeados
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_clubs);
 
+        Bundle listaClubsActivityVars = getIntent().getExtras();
+        sIdCalendarsClubsChecked = listaClubsActivityVars.getStringArrayList("lIdCalendars");
+
+        Log.d(TAG, "la lista de idCalendar es " + sIdCalendarsClubsChecked);
+
         lvListaClubs = (ListView) findViewById(R.id.lvListaClubs);
 
         lClubs = new ArrayList<>();
         ClubAdapter clubs;
 
-        for (int i = 0; i<nombresClubs.size(); i++) {
+        for (int i = 0; i<sIdCalendarsClubsChecked.size(); i++) {
 
-            lClubs.add(new Club(nombresClubs.get(i)));
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsChecked.get(i))));
 
         }
 
@@ -75,10 +77,9 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
                 //Log.d(TAG, "los calendarios seleccionados son " +  TextUtils.join(",", sClubs));
                 Intent intent = getIntent();
-                intent.putStringArrayListExtra("lClubs", (ArrayList<String>) sClubs);
+                intent.putStringArrayListExtra("lClubs", (ArrayList<String>) sIdCalendarsClubsChecked);
                 setResult(RESULT_OK,intent);
                 finish();
-
             }
         });
 
@@ -92,10 +93,7 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
                 finish();
             }
         });
-
     }
-
-
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -105,19 +103,28 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
             Club club = lClubs.get(pos);
             club.setSelected(isChecked);
 
-            //Toast.makeText(ListaClubsActivity.this,"Clicado en club: " + club.getNombreclub() + ", el estado es " + isChecked,Toast.LENGTH_SHORT).show();
-
             if (isChecked) {
 
-                Log.d(TAG, "el nombre del club es: " + club.getNombreclub());
+                //Toast.makeText(ListaClubsActivity.this,"Clicado en club: " + club.getNombreclub() + ", el estado es " + isChecked,Toast.LENGTH_SHORT).show();
 
-                sClubs.add(Funciones.getCalendarId(club.getNombreclub()));
+                Log.d(TAG, "el club clicado es " + club.getNombreclub() + ". El estado es " + isChecked);
+                sIdCalendarsClubsChecked.add(Funciones.getCalendarId(club.getNombreclub()));
 
+            } else {
 
+                //Toast.makeText(ListaClubsActivity.this,"Clicado en club: " + club.getNombreclub() + ", el estado es " + isChecked,Toast.LENGTH_SHORT).show();
+
+                Log.d(TAG, "el club desclicado es " + club.getNombreclub() + ". El estado es " + isChecked);
+                String idCalendario = Funciones.getCalendarId(club.getNombreclub());
+
+                Log.d(TAG, "el calendario a eliminar es " + club.getNombreclub() + ". El id es " + idCalendario);
+                int posIdCalendario = sIdCalendarsClubsChecked.indexOf(idCalendario);
+                Log.d(TAG, "esta en la posicion " + posIdCalendario);
+
+                sIdCalendarsClubsChecked.remove(posIdCalendario);
 
             }
         }
     }
-
 
 }

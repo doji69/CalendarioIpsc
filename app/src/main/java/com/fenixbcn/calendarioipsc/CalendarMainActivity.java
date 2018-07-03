@@ -70,7 +70,7 @@ public class CalendarMainActivity extends AppCompatActivity
 
     List<String> lCadenaEventos = new ArrayList<String>(); // lista de eventos recuperados de google calendar
 
-    List<String> lCalendars = new ArrayList<String>(); // lista que almacena que calendarios son visibles y cuales no
+    List<String> lIdCalendars = new ArrayList<String>(); // lista que almacena que calendarios son visibles y cuales no
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -78,7 +78,6 @@ public class CalendarMainActivity extends AppCompatActivity
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     static final int REQUEST_CLUB_LIST = 1004;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
@@ -93,6 +92,8 @@ public class CalendarMainActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.logo);
+
+        lIdCalendars = Funciones.initIdCalendars(lIdCalendars);
 
         tvOutputText = (TextView) findViewById(R.id.tvOutputText);
 
@@ -358,8 +359,8 @@ public class CalendarMainActivity extends AppCompatActivity
             case REQUEST_CLUB_LIST:
                 if (resultCode == RESULT_OK) {
 
-                    lCalendars = data.getStringArrayListExtra("lClubs");
-                    Log.d(TAG, "los calendarios devueltos son " +  TextUtils.join(",", lCalendars));
+                    lIdCalendars = data.getStringArrayListExtra("lClubs");
+                    Log.d(TAG, "los calendarios devueltos son " +  TextUtils.join(",", lIdCalendars));
                     new MakeRequestTask(mCredential).execute();
                 }
                 break;
@@ -547,9 +548,9 @@ public class CalendarMainActivity extends AppCompatActivity
             List<String> eventStrings = new ArrayList<String>();
 
             /* multiples calendarios */
-            for (int j=0; j<lCalendars.size();j++) {
+            for (int j=0; j<lIdCalendars.size();j++) {
 
-                Events events = mService.events().list(lCalendars.get(j))
+                Events events = mService.events().list(lIdCalendars.get(j))
                         .setMaxResults(100)
                         .setTimeMin(now)
                         .setOrderBy("startTime")
@@ -718,13 +719,13 @@ public class CalendarMainActivity extends AppCompatActivity
                 browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
 
-
                 //Toast.makeText(CalendarMainActivity.this, "federació", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.ListaClubsVisibles:
 
                 Intent listaClubsActivityVars = new Intent(getApplication(), ListaClubsActivity.class);
+                listaClubsActivityVars.putStringArrayListExtra("lIdCalendars", (ArrayList<String>) lIdCalendars);
                 startActivityForResult(listaClubsActivityVars,REQUEST_CLUB_LIST);
 
                 //Toast.makeText(CalendarMainActivity.this, "lista clubs", Toast.LENGTH_SHORT).show();
