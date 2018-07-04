@@ -3,11 +3,12 @@ package com.fenixbcn.calendarioipsc;
 public class Club {
 
     String nombreclub;
-    Boolean clubSelected = true;
+    Boolean clubSelected;
 
-    public Club (String tNombreclub) {
+    public Club (String tNombreclub, Boolean tClubSelected) {
 
         this.nombreclub = tNombreclub;
+        this.clubSelected = tClubSelected;
     }
 
     public String getNombreclub() {

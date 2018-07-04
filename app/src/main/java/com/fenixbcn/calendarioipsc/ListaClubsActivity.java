@@ -65,13 +65,13 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
         for (int i = 0; i<sIdCalendarsClubsChecked.size(); i++) {
 
-            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsChecked.get(i))));
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsChecked.get(i)), true));
 
         }
 
         for (int i = 0; i<sIdCalendarsClubsUnChecked.size(); i++) {
 
-            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsUnChecked.get(i))));
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsUnChecked.get(i)),false));
 
         }
 
