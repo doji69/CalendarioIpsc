@@ -70,8 +70,8 @@ public class CalendarMainActivity extends AppCompatActivity
 
     List<String> lCadenaEventos = new ArrayList<String>(); // lista de eventos recuperados de google calendar
 
-    List<String> sIdCalendarsClubsChecked = new ArrayList<String>(); // lista que almacena que calendarios son visibles
-    List<String> sIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista que almacena que calendarios no son visibles
+    List<String> lIdCalendarsClubsChecked = new ArrayList<String>(); // lista que almacena que calendarios son visibles
+    List<String> lIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista que almacena que calendarios no son visibles
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -94,7 +94,7 @@ public class CalendarMainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.logo);
 
-        sIdCalendarsClubsChecked = Funciones.initIdCalendars(sIdCalendarsClubsChecked);
+        getDataFromSharedPreferences ();
 
         tvOutputText = (TextView) findViewById(R.id.tvOutputText);
 
@@ -360,10 +360,35 @@ public class CalendarMainActivity extends AppCompatActivity
             case REQUEST_CLUB_LIST:
                 if (resultCode == RESULT_OK) {
 
-                    sIdCalendarsClubsChecked = data.getStringArrayListExtra("sIdCalendarsClubsChecked");
-                    sIdCalendarsClubsUnChecked = data.getStringArrayListExtra("sIdCalendarsClubsUnChecked");
-                    Log.d(TAG, "los calendarios clicados devueltos son " +  TextUtils.join(",", sIdCalendarsClubsChecked));
-                    Log.d(TAG, "los calendarios desclicados devueltos son " +  TextUtils.join(",", sIdCalendarsClubsUnChecked));
+                    lIdCalendarsClubsChecked = data.getStringArrayListExtra("lIdCalendarsClubsChecked");
+                    lIdCalendarsClubsUnChecked = data.getStringArrayListExtra("lIdCalendarsClubsUnChecked");
+                    Log.d(TAG, "los calendarios clicados devueltos son " +  TextUtils.join(",", lIdCalendarsClubsChecked));
+                    Log.d(TAG, "los calendarios desclicados devueltos son " +  TextUtils.join(",", lIdCalendarsClubsUnChecked));
+
+                    // guardamos los valores en la sharedpreferences
+
+                    StringBuilder sbIdCalendarsClubsChecked = new StringBuilder();
+                    StringBuilder sbIdCalendarsClubsUnChecked = new StringBuilder();
+
+                    for (String s : lIdCalendarsClubsChecked) {
+                        sbIdCalendarsClubsChecked.append(s);
+                        sbIdCalendarsClubsChecked.append(",");
+
+                    }
+
+                    for (String s : lIdCalendarsClubsUnChecked) {
+                        sbIdCalendarsClubsUnChecked.append(s);
+                        sbIdCalendarsClubsUnChecked.append(",");
+
+                    }
+
+                    SharedPreferences spIdCalendarsClubs = getSharedPreferences("IdCalendarsClubs", MODE_PRIVATE);
+                    SharedPreferences.Editor spEditor= spIdCalendarsClubs.edit();
+
+                    spEditor.putString("checked",sbIdCalendarsClubsChecked.toString());
+                    spEditor.putString("unchecked", sbIdCalendarsClubsUnChecked.toString());
+                    spEditor.apply();
+
                     new MakeRequestTask(mCredential).execute();
                 }
                 break;
@@ -551,9 +576,9 @@ public class CalendarMainActivity extends AppCompatActivity
             List<String> eventStrings = new ArrayList<String>();
 
             /* multiples calendarios */
-            for (int j=0; j<sIdCalendarsClubsChecked.size();j++) {
+            for (int j=0; j<lIdCalendarsClubsChecked.size();j++) {
 
-                Events events = mService.events().list(sIdCalendarsClubsChecked.get(j))
+                Events events = mService.events().list(lIdCalendarsClubsChecked.get(j))
                         .setMaxResults(100)
                         .setTimeMin(now)
                         .setOrderBy("startTime")
@@ -728,8 +753,8 @@ public class CalendarMainActivity extends AppCompatActivity
             case R.id.ListaClubsVisibles:
 
                 Intent listaClubsActivityVars = new Intent(getApplication(), ListaClubsActivity.class);
-                listaClubsActivityVars.putStringArrayListExtra("sIdCalendarsClubsChecked", (ArrayList<String>) sIdCalendarsClubsChecked);
-                listaClubsActivityVars.putStringArrayListExtra("sIdCalendarsClubsUnChecked", (ArrayList<String>) sIdCalendarsClubsUnChecked);
+                listaClubsActivityVars.putStringArrayListExtra("lIdCalendarsClubsChecked", (ArrayList<String>) lIdCalendarsClubsChecked);
+                listaClubsActivityVars.putStringArrayListExtra("lIdCalendarsClubsUnChecked", (ArrayList<String>) lIdCalendarsClubsUnChecked);
                 startActivityForResult(listaClubsActivityVars,REQUEST_CLUB_LIST);
 
                 //Toast.makeText(CalendarMainActivity.this, "lista clubs", Toast.LENGTH_SHORT).show();
@@ -740,6 +765,37 @@ public class CalendarMainActivity extends AppCompatActivity
         return true;
     }
 
+    private void getDataFromSharedPreferences () {
 
+        SharedPreferences spIdCalendarsClubs = getSharedPreferences("IdCalendarsClubs", MODE_PRIVATE);
 
+        String sIdCalendarsClubsChecked = spIdCalendarsClubs.getString("checked", null);
+        String sIdCalendarsClubsUnChecked = spIdCalendarsClubs.getString("unchecked", null);
+
+        String [] cadenaAux;
+
+        if ((sIdCalendarsClubsChecked == null) && (sIdCalendarsClubsUnChecked == null))  {
+            Log.d(TAG, "no hay shared preferences");
+            lIdCalendarsClubsChecked = Funciones.initIdCalendars(lIdCalendarsClubsChecked);
+
+        } else {
+            Log.d(TAG, "si hay shared preferences");
+
+            cadenaAux = sIdCalendarsClubsChecked.split(",");
+
+            for (int i=0;i<cadenaAux.length;i++) {
+
+                lIdCalendarsClubsChecked.add(cadenaAux[i]);
+
+            }
+
+            cadenaAux = sIdCalendarsClubsUnChecked.split(",");
+
+            for (int i=0;i<cadenaAux.length;i++) {
+
+                lIdCalendarsClubsUnChecked.add(cadenaAux[i]);
+
+            }
+        }
+    }
 }

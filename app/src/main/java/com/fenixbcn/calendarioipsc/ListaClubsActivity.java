@@ -1,6 +1,7 @@
 package com.fenixbcn.calendarioipsc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -27,9 +28,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import static com.fenixbcn.calendarioipsc.CalendarMainActivity.REQUEST_CLUB_LIST;
 
@@ -43,8 +46,8 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
     private Button btnCancelListaClubs;
 
     List<Club> lClubs; // listado de clubs para el adapter
-    List<String> sIdCalendarsClubsChecked = new ArrayList<String>(); // lista de idCalendars de los clubs chequeados
-    List<String> sIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista de idCalendars de los clubs no chequeados
+    List<String> lIdCalendarsClubsChecked = new ArrayList<String>(); // lista de idCalendars de los clubs chequeados
+    List<String> lIdCalendarsClubsUnChecked = new ArrayList<String>(); // lista de idCalendars de los clubs no chequeados
 
 
     @Override
@@ -53,25 +56,25 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
         setContentView(R.layout.activity_lista_clubs);
 
         Bundle listaClubsActivityVars = getIntent().getExtras();
-        sIdCalendarsClubsChecked = listaClubsActivityVars.getStringArrayList("sIdCalendarsClubsChecked");
-        sIdCalendarsClubsUnChecked = listaClubsActivityVars.getStringArrayList("sIdCalendarsClubsUnChecked");
+        lIdCalendarsClubsChecked = listaClubsActivityVars.getStringArrayList("lIdCalendarsClubsChecked");
+        lIdCalendarsClubsUnChecked = listaClubsActivityVars.getStringArrayList("lIdCalendarsClubsUnChecked");
 
-        Log.d(TAG, "la lista de idCalendar es " + sIdCalendarsClubsChecked);
+        Log.d(TAG, "la lista de idCalendar es " + lIdCalendarsClubsChecked);
 
         lvListaClubs = (ListView) findViewById(R.id.lvListaClubs);
 
         lClubs = new ArrayList<>();
         ClubAdapter clubs;
 
-        for (int i = 0; i<sIdCalendarsClubsChecked.size(); i++) {
+        for (int i = 0; i<lIdCalendarsClubsChecked.size(); i++) {
 
-            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsChecked.get(i)), true));
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(lIdCalendarsClubsChecked.get(i)), true));
 
         }
 
-        for (int i = 0; i<sIdCalendarsClubsUnChecked.size(); i++) {
+        for (int i = 0; i<lIdCalendarsClubsUnChecked.size(); i++) {
 
-            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(sIdCalendarsClubsUnChecked.get(i)),false));
+            lClubs.add(new Club(Funciones.getNombreClubByCalendarId(lIdCalendarsClubsUnChecked.get(i)),false));
 
         }
 
@@ -86,8 +89,8 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
                 //Log.d(TAG, "los calendarios seleccionados son " +  TextUtils.join(",", sClubs));
                 Intent intent = getIntent();
-                intent.putStringArrayListExtra("sIdCalendarsClubsChecked", (ArrayList<String>) sIdCalendarsClubsChecked);
-                intent.putStringArrayListExtra("sIdCalendarsClubsUnChecked", (ArrayList<String>) sIdCalendarsClubsUnChecked);
+                intent.putStringArrayListExtra("lIdCalendarsClubsChecked", (ArrayList<String>) lIdCalendarsClubsChecked);
+                intent.putStringArrayListExtra("lIdCalendarsClubsUnChecked", (ArrayList<String>) lIdCalendarsClubsUnChecked);
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -119,35 +122,34 @@ public class ListaClubsActivity extends AppCompatActivity implements android.wid
 
                 // añadimos el club clicado al listado de clubs clicados
                 Log.d(TAG, "el club clicado es " + club.getNombreclub() + ". El estado es " + isChecked);
-                sIdCalendarsClubsChecked.add(Funciones.getCalendarId(club.getNombreclub()));
+                lIdCalendarsClubsChecked.add(Funciones.getCalendarId(club.getNombreclub()));
 
                 // buscamos el club clicado y lo borramos de la lista de clubs no clicados
                 idCalendario = Funciones.getCalendarId(club.getNombreclub());
 
                 Log.d(TAG, "el calendario a eliminar de no clicados es " + club.getNombreclub() + ". El id es " + idCalendario);
-                int posIdCalendario = sIdCalendarsClubsUnChecked.indexOf(idCalendario);
+                int posIdCalendario = lIdCalendarsClubsUnChecked.indexOf(idCalendario);
                 Log.d(TAG, "esta en la posicion " + posIdCalendario);
 
-                sIdCalendarsClubsUnChecked.remove(posIdCalendario);
+                lIdCalendarsClubsUnChecked.remove(posIdCalendario);
 
             } else {
 
                 // añadimos el club desclicado al listado de clubs no clicados
                 Log.d(TAG, "el club desclicado es " + club.getNombreclub() + ". El estado es " + isChecked);
-                sIdCalendarsClubsUnChecked.add(Funciones.getCalendarId(club.getNombreclub()));
+                lIdCalendarsClubsUnChecked.add(Funciones.getCalendarId(club.getNombreclub()));
                 Log.d(TAG, "el idCalendario del club desclicado es " + Funciones.getCalendarId(club.getNombreclub()));
 
                 // buscamos el club desclicado y lo borramos de la lista de clubs clicados
                 idCalendario = Funciones.getCalendarId(club.getNombreclub());
 
                 Log.d(TAG, "el calendario a eliminar de clicados es " + club.getNombreclub() + ". El id es " + idCalendario);
-                int posIdCalendario = sIdCalendarsClubsChecked.indexOf(idCalendario);
+                int posIdCalendario = lIdCalendarsClubsChecked.indexOf(idCalendario);
                 Log.d(TAG, "esta en la posicion  " + posIdCalendario);
 
-                sIdCalendarsClubsChecked.remove(posIdCalendario);
+                lIdCalendarsClubsChecked.remove(posIdCalendario);
 
             }
         }
     }
-
 }
