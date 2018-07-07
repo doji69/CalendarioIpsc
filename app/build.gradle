@@ -51,4 +51,5 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.4'
     // google maps services
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    //implementation 'com.google.android.gms:play-services-location:7.0.0'
 }
